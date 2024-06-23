@@ -15,7 +15,7 @@ import {
 
 export const register = (data) => async (dispatch) => {
   try {
-    const response = await axios.post(`http://api.chatwave.one:8080/auth/signup`, data);
+    const response = await axios.post(`https://api.chatwave.one/auth/signup`, data);
     if (response.data.error) {
       console.log("error", response.data.error);
       return { message: response.data.error, success: false };
