@@ -1,1 +1,1 @@
-export const BASE_URL = "http://api.chatwave.one:8080";
+export const BASE_URL = "https://api.chatwave.one";
