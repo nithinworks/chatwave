@@ -147,7 +147,7 @@ const Dashboard = () => {
   // Set up socket.io connection
   useEffect(() => {
     console.log("Initializing WebSocket connection...");
-    socket.current = io("https://api.chatwave.one", {
+    socket.current = io("https://api.chatwave.one:9092", {
       path: "/socket.io",
       transports: ["websocket"],
       query: {
