@@ -1213,7 +1213,7 @@ const Dashboard = () => {
                             <ClickAwayListener
                               onClickAway={() => setShowEmojiPicker(false)}
                             >
-                              <Box className="absolute bottom-14 left-0 z-10">
+                              <Box className="absolute bottom-14 left-90 z-10">
                                 <Picker onEmojiClick={onEmojiClick} />
                               </Box>
                             </ClickAwayListener>
