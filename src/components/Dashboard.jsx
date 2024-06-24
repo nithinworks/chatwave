@@ -57,7 +57,6 @@ import GiphySearch from "./GiphySearch";
 import SelectedMember from "./SelectedMember";
 import "./Dashboard.css";
 import Logo from "../assets/images/logo.png";
-import ChatBg from "../assets/images/chatwave-bg.jpg";
 import { BASE_URL } from "../config/Api";
 import axios from "axios";
 import io from "socket.io-client";
@@ -1101,7 +1100,7 @@ const Dashboard = () => {
               </div>
 
               {/* Messages Section */}
-              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 md:h-[100%] overflow-y-scroll bg-[url('../../public/chatwave-bg.jpg')] bg-center bg-contain">
+              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 md:h-[100%] overflow-y-scroll bg-[url('/chatwave-bg.jpg')] bg-center bg-contain">
                 <div className="space-y-1 flex flex-col justify-center mt-2">
                   {messages.length > 0 &&
                     [...messages].reverse().map((item, index) => {
