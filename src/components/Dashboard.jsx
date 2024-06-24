@@ -56,8 +56,7 @@ import SimpleSnackbar from "./SimpleSnackbar";
 import GiphySearch from "./GiphySearch";
 import SelectedMember from "./SelectedMember";
 import "./Dashboard.css";
-import Logo from "../assets/images/logo.png";
-import ChatBg from "../assets/images/chatwave-bg.jpg";
+import Logo from "../../public/logo.png";
 import { BASE_URL } from "../config/Api";
 import axios from "axios";
 import io from "socket.io-client";
@@ -147,7 +146,8 @@ const Dashboard = () => {
   // Set up socket.io connection
   useEffect(() => {
     console.log("Initializing WebSocket connection...");
-    socket.current = io("https://api.chatwave.one", {
+    socket.current = io(`${BASE_URL}`, {
+      // Use the API Gateway port
       path: "/socket.io",
       transports: ["websocket"],
       query: {
@@ -229,7 +229,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (currentChat) {
       console.log("Joining chat:", currentChat.id);
-      socket.current.emit("join chat", currentChat.id);
+      console.log(socket.current.emit("join chat", currentChat.id));
 
       socket.current.on("message received", (newMessage) => {
         console.log("Message received:", newMessage);
@@ -583,6 +583,7 @@ const Dashboard = () => {
       currentChatId: currentChat.id,
       userIdsList: newMembers,
     };
+    console.log(newMembers);
     dispatch(addGroupMembers(data));
     setIsModalOpen(false);
     setGroupMember(new Set());
@@ -600,7 +601,10 @@ const Dashboard = () => {
     setIsModalOpen(true);
   };
 
+  console.log("token -------:", token);
+
   const handleRemoveGroupUser = (removeUserId) => {
+    console.log("token -------:", token);
     dispatch(
       removeGroupMember({
         token,
@@ -610,6 +614,7 @@ const Dashboard = () => {
     );
     setSnackbarMessage("User Removed successfully!");
     setOpen(true);
+    console.log("token -------:", token);
   };
 
   const handleExitGroup = () => {
@@ -692,6 +697,17 @@ const Dashboard = () => {
 
   const popOpen = Boolean(anchorEl);
   const id = popOpen ? "simple-popover" : undefined;
+
+  console.log("lookout ------- ", currentChat);
+
+  {
+    console.log("Current Chats ------", chat?.chats);
+  }
+
+  console.log("messages ---------------", messages);
+
+  if (notifications)
+    console.log("Notifications -------------------------------", notifications);
 
   return (
     <div className="relative h-[100vh]">
@@ -880,9 +896,10 @@ const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full flex flex-col">
-              {/* Header Section */}
-              <div className="mt-3 -mb-[3.25rem] rounded-tr-lg rounded-br-lg w-full bg-[#f0f2f5] flex justify-between items-center px-4">
+            <div className="w-full h-full md:h-[80vh] relative">
+              <div
+                className={` md:-mt-[3.30rem] mt-3 pb-2 absolute top-0 rounded-tr-lg rounded-br-lg w-full bg-[#f0f2f5] flex justify-between items-center px-4`}
+              >
                 <div className="flex items-center">
                   {/* Back button for mobile view */}
                   <Tooltip title="Back to chats" placement="bottom">
@@ -987,7 +1004,7 @@ const Dashboard = () => {
                             </div>
                           )}
                         </div>
-                        <div className="self-start flex space-x-4 bg-gray-200 py-2 w-full px-2">
+                        <div className="self-start flex  space-x-4 bg-gray-200 py-2 w-full px-2">
                           <p className="font-semibold text-blue-700">Admins</p>
                           {currentChatData.admins.map((admin) => (
                             <div key={admin.id}>
@@ -1069,7 +1086,7 @@ const Dashboard = () => {
                             ? currentChatData.users[0].username
                             : currentChatData.users[1].username}
                         </p>
-                        <div className="self-start flex space-x-4 bg-gray-200 py-2 w-full px-2">
+                        <div className="self-start flex  space-x-4 bg-gray-200 py-2 w-full px-2">
                           <p className="font-semibold text-blue-700">Name</p>
                           <p className="font-semibold text-slate-700 text-sm md:text-base">
                             {currentChatData.users[0].id !== auth.reqUser.id
@@ -1100,8 +1117,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Messages Section */}
-              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 md:h-[100%] overflow-y-scroll bg-[url('/assets/images/chatwave-bg.jpg')] bg-center bg-contain">
+              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 h-[70%] md:h-[76.5%] overflow-y-scroll bg-[url('../../public/chatwave-bg.jpg')] bg-center bg-contain">
                 <div className="space-y-1 flex flex-col justify-center mt-2">
                   {messages.length > 0 &&
                     [...messages].reverse().map((item, index) => {
@@ -1145,8 +1161,7 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Footer Section */}
-              <div className="footer bg-[#f0f2f5] rounded-br-lg w-full py-3 flex justify-center items-center text-2xl">
+              <div className="footer h-[11.5%] bg-[#f0f2f5] rounded-br-lg w-full py-2 text-2xl">
                 {currentChatData?.blocked &&
                 currentChatData?.blocked_by !== auth.reqUser.id ? (
                   <div className="flex flex-col justify-center items-center mt-2">
@@ -1163,7 +1178,7 @@ const Dashboard = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center space-x-2 px-5 w-full">
+                  <div className="flex items-center space-x-2 px-5">
                     {/* Triple dots menu for small screens */}
                     <div className="relative">
                       <Tooltip title="Options" placement="bottom">

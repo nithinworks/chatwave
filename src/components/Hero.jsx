@@ -1,10 +1,10 @@
 import { IoIosSend } from "react-icons/io";
-import HeroImg from "../assets/images/hero-img.jpg";
+import HeroImg from "../../public/hero-img.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
-    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white py-6">
+    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white py-6 md:py-24 md:h-[78vh]">
       <main className="flex flex-col md:flex-row pt-10 md:pt-0 items-center justify-between">
         <div className="w-full md:w-[60%] text-center md:text-left">
           <h1 className="text-4xl md:text-5xl font-bold text-[#1271ff] mb-2">
@@ -21,7 +21,11 @@ const Hero = () => {
             needs.
           </p>
           <div className="flex justify-center md:justify-normal">
-            <Link to='/signup' type="button" className="bg-blue-600 text-white px-6 py-3 rounded-full flex justify-center items-center hover:scale-105 hover:bg-blue-700">
+            <Link
+              to="/signup"
+              type="button"
+              className="bg-blue-600 text-white px-6 py-3 rounded-full flex justify-center items-center hover:scale-105 hover:bg-blue-700"
+            >
               Start Chatting
               <IoIosSend className="text-2xl ml-1" />
             </Link>

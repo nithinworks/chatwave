@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SimpleSnackbar from "./SimpleSnackbar";
 import { currentUser, register, verifyOtp } from "../redux/Auth/Action";
-import SignupImg from "../assets/images/signup-img.jpg";
+import SignupImg from "../../public/signup-img.jpg";
 
 const Signup = () => {
   const [formData, setFormData] = useState({

@@ -120,7 +120,7 @@ const ForgotPassword = () => {
     setOpen(false);
   };
   return (
-    <div className="container max-w-[1280px] mx-auto px-4 md:px-10 bg-white pt-6 pb-16 min-h-[75vh]">
+    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white pt-6 md:pt-24 pb-16 md:h-[78vh]">
       <main>
         <h1 className="text-4xl md:text-3xl font-bold text-[#1271ff] text-center pt-4 pb-4">
           Forgot Password

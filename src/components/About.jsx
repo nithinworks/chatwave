@@ -2,7 +2,7 @@ import { FaUser, FaHistory } from "react-icons/fa";
 import { IoChatbubbles } from "react-icons/io5";
 import { IoMdNotifications } from "react-icons/io";
 
-import Logo from "../assets/images/logo.png";
+import Logo from "../../public/logo.png";
 
 const About = () => {
   const about = [
@@ -33,7 +33,7 @@ const About = () => {
   ];
 
   return (
-    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white pt-6 pb-16 ">
+    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white pt-6 md:pt-24 pb-16 md:h-[78vh]">
       <main>
         <h1 className="text-4xl md:text-5xl font-bold text-[#1271ff] underline text-center pt-4 pb-4 md:pb-12">
           About
@@ -44,8 +44,13 @@ const About = () => {
           </div>
           <div className="w-full md:w-[65%] text-center md:text-left space-y-8 sm:space-y-4 pr-4 md:pr-12 lg:pr-16 xl:pr-28">
             {about.map((item) => (
-              <div key={item.title} className="flex flex-col sm:flex-row items-center md:text-justify space-x-2">
-                <div className="text-xl pt-1 text-blue-900 hover:text-blue-700 sm:pr-1">{item.icon}</div>
+              <div
+                key={item.title}
+                className="flex flex-col sm:flex-row items-center md:text-justify space-x-2"
+              >
+                <div className="text-xl pt-1 text-blue-900 hover:text-blue-700 sm:pr-1">
+                  {item.icon}
+                </div>
                 <p className="text-lg text-slate-700 hover:text-slate-900">
                   <span className="text-[#1271ff] font-bold hover:text-blue-700 block sm:inline">
                     {item.title}:

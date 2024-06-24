@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { currentUser, login } from "../redux/Auth/Action";
 import SimpleSnackbar from "./SimpleSnackbar";
-import SigninImg from "../assets/images/signin-img.jpeg";
+import SigninImg from "../../public/signin-img.jpeg";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -96,7 +96,7 @@ const Signin = () => {
   }, [location.state]);
 
   return (
-    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white pt-6 pb-16">
+    <div className="container max-w-[1440px] mx-auto px-4 md:px-10 bg-white pt-6 md:pt-16 md:h-78vh pb-16">
       <main>
         <h1 className="text-4xl md:text-3xl font-bold text-[#1271ff] text-center pt-4 pb-4 md:pb-12">
           Sign in and Start the Conversation!
