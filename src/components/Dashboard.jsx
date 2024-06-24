@@ -1164,7 +1164,7 @@ const Dashboard = () => {
                 ) : (
                   <div className="flex items-center space-x-2 px-5 w-full">
                     {/* Triple dots menu for small screens */}
-                    <div className="relative">
+                    <div className="relative md:hidden">
                       <Tooltip title="Options" placement="bottom">
                         <div>
                           <BsThreeDots
