@@ -17,18 +17,18 @@ export const register = (data) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/signup`, data);
     if (response.data.error) {
-      console.log("error", response.data.error);
+      //console.log("error", response.data.error);
       return { message: response.data.error, success: false };
     }
     const user = response.data;
-    console.log("register", user);
+    //console.log("register", user);
     dispatch({ type: REGISTER, payload: user });
     return {
       message: "Registration successful. Please verify your email.",
       success: true,
     };
   } catch (error) {
-    console.error("Registration error", error);
+    //console.error("Registration error", error);
     return {
       message: error.response?.data?.message || "Registration failed",
       success: false,
@@ -40,7 +40,7 @@ export const verifyOtp = (data) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/verifyOtp`, data);
     const otp = response.data;
-    console.log("verify otp", otp);
+    //console.log("verify otp", otp);
     dispatch({ type: VERIFY_OTP, payload: otp });
     return { message: "OTP verified successfully", success: true };
   } catch (error) {
@@ -56,7 +56,7 @@ export const forgotPassword = (data) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/forgetPassword`, data);
     if (response.data.error) {
-      console.log("error", response.data.error);
+      //console.log("error", response.data.error);
       return { message: response.data.error, success: false };
     }
     const user = response.data;
@@ -75,7 +75,7 @@ export const resetPassword = (data) => async (dispatch) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/resetPassword`, data);
     if (response.data.error) {
-      console.log("error", response.data.error);
+      //console.log("error", response.data.error);
       return { message: response.data.error, success: false };
     }
     const user = response.data;
@@ -147,10 +147,10 @@ export const currentUser = (token) => async (dispatch) => {
       },
     });
     const user = response.data;
-    console.log("req user profile ", user);
+    //console.log("req user profile ", user);
     dispatch({ type: REQ_USER, payload: user });
   } catch (error) {
-    console.log("Current user error ", error);
+    //console.log("Current user error ", error);
   }
 };
 
@@ -171,7 +171,7 @@ export const searchUser = (data) => async (dispatch) => {
 };
 
 export const updateUser = (data) => async (dispatch) => {
-  console.log("update user data - ", data);
+  //console.log("update user data - ", data);
   try {
     const response = await axios.put(
       `${BASE_URL}/api/users/update/${data.id}`,
@@ -183,9 +183,9 @@ export const updateUser = (data) => async (dispatch) => {
       }
     );
     const updatedUser = response.data;
-    console.log("updated user", updatedUser);
+    //console.log("updated user", updatedUser);
     dispatch({ type: UPDATE_USER, payload: updatedUser });
   } catch (error) {
-    console.log("Update user error ", error);
+    //console.log("Update user error ", error);
   }
 };
