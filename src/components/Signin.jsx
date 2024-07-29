@@ -23,7 +23,7 @@ const Signin = () => {
 
   const token = localStorage.getItem("token");
 
-  console.log("auth", auth);
+  //console.log("auth", auth);
 
   const validateField = (name, value) => {
     let tempErrors = { ...errors };
@@ -63,7 +63,7 @@ const Signin = () => {
     setErrors(tempErrors);
 
     if (Object.values(tempErrors).every((x) => x === "")) {
-      console.log(formData);
+      //console.log(formData);
       const { success, message } = await dispatch(login(formData));
       if (!success) {
         setSnackbarMessage(message);
