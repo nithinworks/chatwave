@@ -139,7 +139,7 @@ export const reactivateAccount = (data) => async (dispatch) => {
 };
 
 export const currentUser = (token) => async (dispatch) => {
-  console.log("token req profile ------ ", token);
+  //console.log("token req profile ------ ", token);
   try {
     const response = await axios.get(`${BASE_URL}/api/users/profile`, {
       headers: {
