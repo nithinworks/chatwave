@@ -100,7 +100,7 @@ export const addGroupMembers = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    //console.log("added user(s) to group ----- ", chat);
+    console.log("added user(s) to group ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
     //console.log("adding user to group error", error);
@@ -119,7 +119,7 @@ export const removeGroupMember = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    //console.log("removed user from group ----- ", chat);
+    console.log("removed user from group ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
     //console.log("remove user from group error", error);
@@ -138,10 +138,6 @@ export const blockUser = (data) => async (dispatch) => {
       }
     );
     const chat = response.data; // Ensure this includes the `blocked` and `blocked_by` properties
-    //console.log(
-     // "blocked user --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ",
-      //chat
-    //);
     dispatch({ type: BLOCK_USER, payload: chat }); // Dispatch the updated chat object
   } catch (error) {
     //console.log("Error blocking user", error);
@@ -160,7 +156,7 @@ export const unblockUser = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    //console.log("unblocked user ----- ", chat);
+    console.log("unblocked user ----- ", chat);
     dispatch({ type: UNBLOCK_USER, payload: chat });
   } catch (error) {
     //console.log("Error unblocking user", error);
@@ -179,7 +175,7 @@ export const exitGroup = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    //console.log("exit from group success ----- ", chat);
+    console.log("exit from group success ----- ", chat);
     dispatch({ type: EXIT_GROUP, payload: chat });
   } catch (error) {
     //console.log("Error exiting group", error);
