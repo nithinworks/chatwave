@@ -75,7 +75,7 @@ const ForgotPassword = () => {
       setSnackbarMessage(message);
       setSnackbarType(success ? "success" : "error");
       setOpen(true);
-      console.log(success, message);
+      //console.log(success, message);
       if (success) {
         setStep(2);
       }
@@ -106,7 +106,7 @@ const ForgotPassword = () => {
       setSnackbarType(success ? "success" : "error");
       setOpen(true);
       if (success) {
-        console.log("successfully reset password");
+        //console.log("successfully reset password");
         navigate("/signin", {
           state: {
             snackbarMessage: "Reset Password successful",
