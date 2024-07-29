@@ -22,7 +22,7 @@ export const createNewMessage = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("new messages - ", newMessage.data);
+    //console.log("new messages - ", newMessage.data);
     dispatch({ type: CREATE_NEW_MESSAGE, payload: newMessage.data });
     return newMessage.data;
   } catch (error) {
