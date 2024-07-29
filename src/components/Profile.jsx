@@ -108,7 +108,7 @@ const Profile = ({ handleProfileCloseOpen }) => {
       setTempPicture(imageUrl);
       setMessage("Profile image updated successfully");
       setOpen(true);
-      console.log("imgurl", imageUrl);
+      //console.log("imgurl", imageUrl);
       const imgData = {
         id: auth.reqUser.id,
         token: localStorage.getItem("token"),
