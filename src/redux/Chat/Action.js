@@ -22,10 +22,10 @@ export const createSingleChat = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("created chat ----- ", chat);
+    //console.log("created chat ----- ", chat);
     dispatch({ type: CREATE_SINGLE_CHAT, payload: chat });
   } catch (error) {
-    console.log("Create single chat error ", error);
+    //console.log("Create single chat error ", error);
   }
 };
 
@@ -41,23 +41,23 @@ export const createGroupChat = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("created group chat ----- ", chat);
+    //console.log("created group chat ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
-    console.log("Create group chat error", error);
+    //console.log("Create group chat error", error);
   }
 };
 
 export const getAllChat = (token) => async (dispatch) => {
   try {
-    console.log("token get chat ----- ", token);
+    //console.log("token get chat ----- ", token);
     const response = await axios.get(`${BASE_URL}/api/chats/user`, {
       headers: {
         Authorization: token,
       },
     });
     const chats = response.data;
-    console.log("get chats ----- ", chats);
+    //console.log("get chats ----- ", chats);
     dispatch({ type: GET_ALL_CHAT, payload: chats });
   } catch (error) {
     console.error("Get all chat error", error);
@@ -79,10 +79,10 @@ export const updateGroup = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("updated group ----- ", chat);
+    //console.log("updated group ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
-    console.log("Update group error", error);
+    //console.log("Update group error", error);
   }
 };
 
@@ -100,10 +100,10 @@ export const addGroupMembers = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("added user(s) to group ----- ", chat);
+    //console.log("added user(s) to group ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
-    console.log("adding user to group error", error);
+    //console.log("adding user to group error", error);
   }
 };
 
@@ -119,10 +119,10 @@ export const removeGroupMember = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("removed user from group ----- ", chat);
+    //console.log("removed user from group ----- ", chat);
     dispatch({ type: CREATE_GROUP_CHAT, payload: chat });
   } catch (error) {
-    console.log("remove user from group error", error);
+    //console.log("remove user from group error", error);
   }
 };
 
@@ -138,13 +138,13 @@ export const blockUser = (data) => async (dispatch) => {
       }
     );
     const chat = response.data; // Ensure this includes the `blocked` and `blocked_by` properties
-    console.log(
+    //console.log(
       "blocked user --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ",
       chat
     );
     dispatch({ type: BLOCK_USER, payload: chat }); // Dispatch the updated chat object
   } catch (error) {
-    console.log("Error blocking user", error);
+    //console.log("Error blocking user", error);
   }
 };
 
@@ -160,10 +160,10 @@ export const unblockUser = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("unblocked user ----- ", chat);
+    //console.log("unblocked user ----- ", chat);
     dispatch({ type: UNBLOCK_USER, payload: chat });
   } catch (error) {
-    console.log("Error unblocking user", error);
+    //console.log("Error unblocking user", error);
   }
 };
 
@@ -179,10 +179,10 @@ export const exitGroup = (data) => async (dispatch) => {
       }
     );
     const chat = response.data;
-    console.log("exit from group success ----- ", chat);
+    //console.log("exit from group success ----- ", chat);
     dispatch({ type: EXIT_GROUP, payload: chat });
   } catch (error) {
-    console.log("Error exiting group", error);
+    //console.log("Error exiting group", error);
   }
 };
 
