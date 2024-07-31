@@ -30,8 +30,14 @@ const ForgotPassword = () => {
       tempErrors.otp = value ? "" : "OTP is required.";
     } else if (name === "newPassword") {
       tempErrors.newPassword = value ? "" : "New Password is required.";
-      if (value && value.length < 8) {
-        tempErrors.newPassword = "Password must be at least 8 characters long.";
+      if (
+        value &&
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          value
+        )
+      ) {
+        tempErrors.newPassword =
+          "Password must be at least 8 characters long, include at least one uppercase, one lowercase, one number, and one special character.";
       }
       if (value && value !== formData.confirmNewPassword) {
         tempErrors.confirmNewPassword = "Passwords do not match.";
@@ -75,7 +81,7 @@ const ForgotPassword = () => {
       setSnackbarMessage(message);
       setSnackbarType(success ? "success" : "error");
       setOpen(true);
-      //console.log(success, message);
+      console.log(success, message);
       if (success) {
         setStep(2);
       }
@@ -106,7 +112,7 @@ const ForgotPassword = () => {
       setSnackbarType(success ? "success" : "error");
       setOpen(true);
       if (success) {
-        //console.log("successfully reset password");
+        console.log("successfully reset password");
         navigate("/signin", {
           state: {
             snackbarMessage: "Reset Password successful",
