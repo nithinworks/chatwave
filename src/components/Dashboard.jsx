@@ -6,7 +6,6 @@ import { HiOutlineGif } from "react-icons/hi2";
 import { IoMdSend, IoMdArrowBack } from "react-icons/io";
 import { TbLogout } from "react-icons/tb";
 import { VscRobot } from "react-icons/vsc";
-import { Menu, Transition } from '@headlessui/react';
 import {
   BsArrowLeft,
   BsEmojiSmile,
