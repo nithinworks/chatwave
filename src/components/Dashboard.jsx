@@ -29,6 +29,7 @@ import {
   Tooltip,
   Menu,
   MenuItem,
+  IconButton,
 } from "@mui/material";
 import Picker from "emoji-picker-react";
 import { REGISTER, LOGIN, REQ_USER } from "../redux/Auth/ActionType";
@@ -95,7 +96,15 @@ const Dashboard = () => {
   const [lastRenderedDate, setLastRenderedDate] = useState(null);
   const [isLeftPaneVisible, setIsLeftPaneVisible] = useState(true); // State to control left pane visibility
   const [menuAnchorEl, setMenuAnchorEl] = useState(null); // State for triple dots menu
+  const [anchorEl2, setanchorEl2] = useState(null);
 
+  const handleMenuOpen2 = (event) => {
+    setanchorEl2(event.currentTarget);
+  };
+
+  const handleMenuClose2 = () => {
+    setanchorEl2(null);
+  };
   const messageRef = useRef();
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -489,7 +498,7 @@ const Dashboard = () => {
 
         try {
           const response = await axios.post(
-            "https://api.cloudinary.com/v1_1/ds6dfcnny/image/upload",
+            "https://api.cloudinary.com/v1_1/ds6dfcnny/auto/upload",
             formData
           );
           const contentUrl = response.data.secure_url;
@@ -746,7 +755,7 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="w-full h-full">
-              <div className="flex justify-between items-center p-3">
+             <div className="flex justify-between items-center p-3">
       <div className="flex items-center space-x-3">
         <Tooltip title="View Profile" placement="bottom">
           <img
@@ -763,108 +772,59 @@ const Dashboard = () => {
       </div>
       <div className="hidden lg:flex space-x-3 text-2xl items-center">
         <Tooltip title="Start a Video Discussion" placement="bottom">
-          <div
-            onClick={() => navigate("/group-room")}
-            className="cursor-pointer text-2xl"
-          >
+          <IconButton onClick={() => navigate("/group-room")} className="cursor-pointer text-2xl">
             <AiOutlineVideoCameraAdd />
-          </div>
+          </IconButton>
         </Tooltip>
         <Tooltip title="Toggle Chatbot" placement="bottom">
-          <div
-            onClick={() => setShowChatBubble(!showChatBubble)}
-            className="cursor-pointer"
-          >
+          <IconButton onClick={() => setShowChatBubble(!showChatBubble)} className="cursor-pointer">
             <VscRobot />
-          </div>
+          </IconButton>
         </Tooltip>
         <Tooltip title="Create Group" placement="bottom">
-          <div
-            onClick={handleCreateGroupCloseOpen}
-            className="cursor-pointer"
-          >
+          <IconButton onClick={handleCreateGroupCloseOpen} className="cursor-pointer">
             <MdOutlineGroupAdd />
-          </div>
+          </IconButton>
         </Tooltip>
         <Tooltip title="Logout" placement="bottom">
-          <div className="cursor-pointer text-red-600" onClick={handleLogout}>
+          <IconButton className="cursor-pointer text-red-600" onClick={handleLogout}>
             <TbLogout />
-          </div>
+          </IconButton>
         </Tooltip>
       </div>
       <div className="lg:hidden relative">
-        <Menu>
-          {({ open }) => (
-            <>
-              <Menu.Button className="text-2xl">
-                &#x22EE; {/* Unicode character for vertical ellipsis */}
-              </Menu.Button>
-              <Transition
-                show={open}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active ? 'bg-gray-100' : ''
-                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
-                        onClick={() => navigate("/group-room")}
-                      >
-                        <AiOutlineVideoCameraAdd />
-                        <span>Start a Video Discussion</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active ? 'bg-gray-100' : ''
-                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
-                        onClick={() => setShowChatBubble(!showChatBubble)}
-                      >
-                        <VscRobot />
-                        <span>Toggle Chatbot</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active ? 'bg-gray-100' : ''
-                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
-                        onClick={handleCreateGroupCloseOpen}
-                      >
-                        <MdOutlineGroupAdd />
-                        <span>Create Group</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div
-                        className={`${
-                          active ? 'bg-gray-100' : ''
-                        } px-4 py-2 cursor-pointer flex items-center space-x-2 text-red-600`}
-                        onClick={handleLogout}
-                      >
-                        <TbLogout />
-                        <span>Logout</span>
-                      </div>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </>
-          )}
+        <IconButton onClick={handleMenuOpen2} className="text-2xl">
+          &#x22EE; {/* Unicode character for vertical ellipsis */}
+        </IconButton>
+        <Menu
+          anchorEl2={anchorEl2}
+          open={Boolean(anchorEl2)}
+          onClose={handleMenuClose2}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <MenuItem onClick={() => { navigate("/group-room"); handleMenuClose2(); }}>
+            <AiOutlineVideoCameraAdd className="mr-2" />
+            Start a Video Discussion
+          </MenuItem>
+          <MenuItem onClick={() => { setShowChatBubble(!showChatBubble); handleMenuClose2(); }}>
+            <VscRobot className="mr-2" />
+            Toggle Chatbot
+          </MenuItem>
+          <MenuItem onClick={() => { handleCreateGroupCloseOpen(); handleMenuClose2(); }}>
+            <MdOutlineGroupAdd className="mr-2" />
+            Create Group
+          </MenuItem>
+          <MenuItem onClick={() => { handleLogout(); handleMenuClose2(); }} className="text-red-600">
+            <TbLogout className="mr-2" />
+            Logout
+          </MenuItem>
         </Menu>
       </div>
     </div>
