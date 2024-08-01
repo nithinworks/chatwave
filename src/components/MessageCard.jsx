@@ -52,7 +52,7 @@ const MessageCard = ({
     handleMenuClose();
   };
 
-  const isImage = localContent.match(/\.(jpeg|jpg|gif|png)$/);
+  const isImage = localContent.match(/\.(jpeg|jpg|gif|png|mp4)$/);
   const isGif = localContent.includes("giphy.com/media");
 
   // Split the content into prefix and main content
