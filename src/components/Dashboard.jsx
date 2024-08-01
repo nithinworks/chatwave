@@ -1080,7 +1080,7 @@ const Dashboard = () => {
                           </Button>
                         )}
        {!currentChatData.admins.some(
-                          (admin) => admin.id !== auth.reqUser.id
+                          (admin) => admin.id === auth.reqUser.id
                         ) && (
                           <Button
                             color={"error"}
