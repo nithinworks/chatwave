@@ -830,7 +830,7 @@ const Dashboard = () => {
                   ))}
 
                 {!chat.chats?.error &&
-                  chat?.chats?.map((item) => {
+                  chat?.chats?.reverse().map((item) => {
                     const chatNotifications = notifications.filter(
                       (notif) => notif.chatId === item.id
                     );
