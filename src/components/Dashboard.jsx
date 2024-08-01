@@ -1079,13 +1079,17 @@ const Dashboard = () => {
                             Add User
                           </Button>
                         )}
-                        <Button
-                          color={"error"}
-                          variant="contained"
-                          onClick={handleExitGroup}
-                        >
-                          Exit Group
-                        </Button>
+       {!currentChatData.admins.some(
+                          (admin) => admin.id !== auth.reqUser.id
+                        ) && (
+                          <Button
+                            color={"error"}
+                            variant="contained"
+                            onClick={handleExitGroup}
+                          >
+                            Exit Group
+                          </Button>
+                        )}
                       </div>
                     ) : (
                       <div className="w-64 h-full p-4 flex flex-col items-center space-y-4">
