@@ -891,7 +891,7 @@ const Dashboard = () => {
         <div
           className={`right w-full md:w-[70%] flex flex-col items-center justify-center h-full ${
             isLeftPaneVisible ? "hidden" : "block"
-          } md:block`}
+          } lg:block`}
         >
           {!currentChatData ? (
             <div className="flex flex-col items-center justify-center h-full">
