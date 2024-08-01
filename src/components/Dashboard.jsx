@@ -746,53 +746,127 @@ const Dashboard = () => {
           ) : (
             <div className="w-full h-full">
               <div className="flex justify-between items-center p-3">
-                <div className="flex items-center space-x-3">
-                  <Tooltip title="View Profile" placement="bottom">
-                    <img
-                      className="rounded-full w-10 h-10 cursor-pointer"
-                      src={
-                        auth.reqUser?.profile_picture ||
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-                      }
-                      alt="profile picture"
-                      onClick={handleProfileCloseOpen}
-                    />
-                  </Tooltip>
-                  <p className="hidden md:block">{auth.reqUser?.full_name}</p>
-                </div>
-                <div className="space-x-3 text-2xl flex">
-                  <Tooltip title="Start a Video Discussion" placement="bottom">
-                    <div
-                      onClick={() => navigate("/group-room")}
-                      className="cursor-pointer text-2xl"
-                    >
-                      <AiOutlineVideoCameraAdd />
-                    </div>
-                  </Tooltip>
-                  <Tooltip title="Toggle Chatbot" placement="bottom">
-                    <div
-                      onClick={() => setShowChatBubble(!showChatBubble)}
-                      className="cursor-pointer"
-                    >
-                      <VscRobot />
-                    </div>
-                  </Tooltip>
-                  <Tooltip title="Create Group" placement="bottom">
-                    <div
-                      onClick={handleCreateGroupCloseOpen}
-                      className="cursor-pointer"
-                    >
-                      <MdOutlineGroupAdd />
-                    </div>
-                  </Tooltip>
-                  <Tooltip title="Logout" placement="bottom">
-                    <div className="cursor-pointer text-red-600">
-                      <TbLogout onClick={handleLogout} />
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-
+      <div className="flex items-center space-x-3">
+        <Tooltip title="View Profile" placement="bottom">
+          <img
+            className="rounded-full w-10 h-10 cursor-pointer"
+            src={
+              auth.reqUser?.profile_picture ||
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            }
+            alt="profile picture"
+            onClick={handleProfileCloseOpen}
+          />
+        </Tooltip>
+        <p className="hidden md:block">{auth.reqUser?.full_name}</p>
+      </div>
+      <div className="hidden lg:flex space-x-3 text-2xl items-center">
+        <Tooltip title="Start a Video Discussion" placement="bottom">
+          <div
+            onClick={() => navigate("/group-room")}
+            className="cursor-pointer text-2xl"
+          >
+            <AiOutlineVideoCameraAdd />
+          </div>
+        </Tooltip>
+        <Tooltip title="Toggle Chatbot" placement="bottom">
+          <div
+            onClick={() => setShowChatBubble(!showChatBubble)}
+            className="cursor-pointer"
+          >
+            <VscRobot />
+          </div>
+        </Tooltip>
+        <Tooltip title="Create Group" placement="bottom">
+          <div
+            onClick={handleCreateGroupCloseOpen}
+            className="cursor-pointer"
+          >
+            <MdOutlineGroupAdd />
+          </div>
+        </Tooltip>
+        <Tooltip title="Logout" placement="bottom">
+          <div className="cursor-pointer text-red-600" onClick={handleLogout}>
+            <TbLogout />
+          </div>
+        </Tooltip>
+      </div>
+      <div className="lg:hidden relative">
+        <Menu>
+          {({ open }) => (
+            <>
+              <Menu.Button className="text-2xl">
+                &#x22EE; {/* Unicode character for vertical ellipsis */}
+              </Menu.Button>
+              <Transition
+                show={open}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        className={`${
+                          active ? 'bg-gray-100' : ''
+                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
+                        onClick={() => navigate("/group-room")}
+                      >
+                        <AiOutlineVideoCameraAdd />
+                        <span>Start a Video Discussion</span>
+                      </div>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        className={`${
+                          active ? 'bg-gray-100' : ''
+                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
+                        onClick={() => setShowChatBubble(!showChatBubble)}
+                      >
+                        <VscRobot />
+                        <span>Toggle Chatbot</span>
+                      </div>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        className={`${
+                          active ? 'bg-gray-100' : ''
+                        } px-4 py-2 cursor-pointer flex items-center space-x-2`}
+                        onClick={handleCreateGroupCloseOpen}
+                      >
+                        <MdOutlineGroupAdd />
+                        <span>Create Group</span>
+                      </div>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <div
+                        className={`${
+                          active ? 'bg-gray-100' : ''
+                        } px-4 py-2 cursor-pointer flex items-center space-x-2 text-red-600`}
+                        onClick={handleLogout}
+                      >
+                        <TbLogout />
+                        <span>Logout</span>
+                      </div>
+                    )}
+                  </Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </>
+          )}
+        </Menu>
+      </div>
+    </div>
               <div className="relative flex justify-center items-center bg-white py-4 px-3">
                 <input
                   className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-10 py-2"
