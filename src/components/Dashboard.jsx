@@ -915,7 +915,7 @@ const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full flex flex-col">
+            <div className="w-full h-full md:h-[80vh] flex flex-col">
               {/* Header Section */}
               <div className="mt-3 -mb-[3.25rem] rounded-tr-lg rounded-br-lg w-full bg-[#f0f2f5] flex justify-between items-center px-4">
                 <div className="flex items-center">
