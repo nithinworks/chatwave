@@ -102,7 +102,12 @@ const MessageCard = ({
               <video
                 src={localContent}
                 controls
-                className="media-card-video max-w-full h-auto rounded-md"
+                className="media-card-video rounded-md"
+                style={{
+                  width: "300px", // Fixed width
+                  height: "200px", // Fixed height
+                  objectFit: "cover", // Cover to maintain aspect ratio
+                }}
               />
             ) : null}
             <p className="text-xs absolute bottom-1 right-1 bg-gray-800 bg-opacity-50 text-white p-1 rounded">
