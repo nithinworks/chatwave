@@ -78,7 +78,7 @@ const ForgotPassword = () => {
       const { success, message } = await dispatch(
         forgotPassword({ email: formData.email })
       );
-      setSnackbarMessage("OTP Sent Successfully");
+      setSnackbarMessage(success ? "OTP Send Successfully!" : "Invalid Email ID!");
       setSnackbarType(success ? "success" : "error");
       setOpen(true);
       console.log(success, message);
