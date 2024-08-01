@@ -7,7 +7,6 @@ import { deleteMessage } from "../redux/Message/Action";
 const MessageCard = ({
   isReqUserMessage,
   content,
-  // messageRef,
   handleEditMessage,
   messageId,
   token,
@@ -15,7 +14,7 @@ const MessageCard = ({
   messageTime,
   isGroup,
   sender,
-  showDateHeader, // Show date header based on prop from parent
+  showDateHeader,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [localContent, setLocalContent] = useState(content);
@@ -52,10 +51,10 @@ const MessageCard = ({
     handleMenuClose();
   };
 
-  const isImage = localContent.match(/\.(jpeg|jpg|gif|png|mp4)$/);
+  const isImage = localContent.match(/\.(jpeg|jpg|gif|png)$/i);
   const isGif = localContent.includes("giphy.com/media");
+  const isVideo = localContent.match(/\.(mp4|webm|ogg)$/i);
 
-  // Split the content into prefix and main content
   const editPrefix = localContent.startsWith("Edit: ") ? "Edit: " : "";
   const mainContent = localContent.startsWith("Edit: ")
     ? localContent.substring(6)
@@ -71,17 +70,18 @@ const MessageCard = ({
         </div>
       )}
       <div
-        // ref={messageRef}
         className={`relative flex ${
           isReqUserMessage
             ? "self-start bg-white"
             : "self-end bg-blue-600 text-white"
         } space-x-2 p-2 rounded-md ${
-          isImage || isGif ? "max-w-[70%] sm:max-w-[50%]" : "max-w-[60%]"
+          isImage || isGif || isVideo
+            ? "max-w-[70%] sm:max-w-[50%]"
+            : "max-w-[60%]"
         }`}
-        style={{ wordBreak: "break-word" }} // Ensure message content does not overflow
+        style={{ wordBreak: "break-word" }}
       >
-        {isImage || isGif ? (
+        {isImage || isGif || isVideo ? (
           <div className="relative w-full">
             {isGroup && (
               <p
@@ -92,11 +92,19 @@ const MessageCard = ({
                 ~ {sender.full_name}
               </p>
             )}
-            <img
-              src={localContent}
-              alt="content"
-              className="media-card-image max-w-full h-auto rounded-md"
-            />
+            {isImage || isGif ? (
+              <img
+                src={localContent}
+                alt="content"
+                className="media-card-image max-w-full h-auto rounded-md"
+              />
+            ) : isVideo ? (
+              <video
+                src={localContent}
+                controls
+                className="media-card-video max-w-full h-auto rounded-md"
+              />
+            ) : null}
             <p className="text-xs absolute bottom-1 right-1 bg-gray-800 bg-opacity-50 text-white p-1 rounded">
               {messageTime}
             </p>
@@ -135,7 +143,7 @@ const MessageCard = ({
                 {!isReqUserMessage &&
                   localContent !== "This message was deleted" && (
                     <BsThreeDotsVertical
-                      className="cursor-pointer text-lg" // Increased size for better visibility
+                      className="cursor-pointer text-lg"
                       onClick={handleMenuOpen}
                     />
                   )}
@@ -157,7 +165,7 @@ const MessageCard = ({
             horizontal: "right",
           }}
         >
-          {!isImage && !isGif && (
+          {!isImage && !isGif && !isVideo && (
             <MenuItem sx={{ color: "blue" }} onClick={handleEdit}>
               Edit
             </MenuItem>
