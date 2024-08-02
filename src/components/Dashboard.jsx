@@ -1061,7 +1061,7 @@ const Dashboard = () => {
                 </div>
               </div>
               {/* Messages Section */}
-              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 md:h-[100%] overflow-y-scroll bg-[url('/chatwave-bg.jpg')] bg-center bg-contain">
+              <div className="px-4 md:px-10 pt-2 pb-8 mt-16 h-[100%] overflow-y-scroll bg-[url('/chatwave-bg.jpg')] bg-center bg-contain">
                 <div className="space-y-1 flex flex-col justify-center mt-2">
                   {messages.length > 0 &&
                     [...messages].reverse().map((item, index) => {
