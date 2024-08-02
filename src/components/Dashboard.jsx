@@ -28,7 +28,6 @@ import {
   Tooltip,
   Menu,
   MenuItem,
-  IconButton,
 } from "@mui/material";
 import Picker from "emoji-picker-react";
 import { REGISTER, LOGIN, REQ_USER } from "../redux/Auth/ActionType";
@@ -95,15 +94,6 @@ const Dashboard = () => {
   const [lastRenderedDate, setLastRenderedDate] = useState(null);
   const [isLeftPaneVisible, setIsLeftPaneVisible] = useState(true); // State to control left pane visibility
   const [menuAnchorEl, setMenuAnchorEl] = useState(null); // State for triple dots menu
-  const [anchorEl2, setanchorEl2] = useState(null);
-
-  const handleMenuOpen2 = (event) => {
-    setanchorEl2(event.currentTarget);
-  };
-
-  const handleMenuClose2 = () => {
-    setanchorEl2(null);
-  };
   const messageRef = useRef();
   const inputRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -755,79 +745,7 @@ const Dashboard = () => {
           ) : (
             <div className="w-full h-full">
              <div className="flex justify-between items-center p-3">
-      <div className="flex items-center space-x-3">
-        <Tooltip title="View Profile" placement="bottom">
-          <img
-            className="rounded-full w-10 h-10 cursor-pointer"
-            src={
-              auth.reqUser?.profile_picture ||
-              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-            }
-            alt="profile picture"
-            onClick={handleProfileCloseOpen}
-          />
-        </Tooltip>
-        <p className="hidden md:block">{auth.reqUser?.full_name}</p>
-      </div>
-      <div className="hidden lg:flex space-x-3 text-2xl items-center">
-        <Tooltip title="Start a Video Discussion" placement="bottom">
-          <IconButton onClick={() => navigate("/group-room")} className="cursor-pointer text-2xl">
-            <AiOutlineVideoCameraAdd />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Toggle Chatbot" placement="bottom">
-          <IconButton onClick={() => setShowChatBubble(!showChatBubble)} className="cursor-pointer">
-            <VscRobot />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Create Group" placement="bottom">
-          <IconButton onClick={handleCreateGroupCloseOpen} className="cursor-pointer">
-            <MdOutlineGroupAdd />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Logout" placement="bottom">
-          <IconButton className="cursor-pointer text-red-600" onClick={handleLogout}>
-            <TbLogout />
-          </IconButton>
-        </Tooltip>
-      </div>
-      <div className="lg:hidden relative">
-        <IconButton onClick={handleMenuOpen2} className="text-2xl">
-          &#x22EE; {/* Unicode character for vertical ellipsis */}
-        </IconButton>
-        <Menu
-          anchorEl2={anchorEl2}
-          open={Boolean(anchorEl2)}
-          onClose={handleMenuClose2}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <MenuItem onClick={() => { navigate("/group-room"); handleMenuClose2(); }}>
-            <AiOutlineVideoCameraAdd className="mr-2" />
-            Start a Video Discussion
-          </MenuItem>
-          <MenuItem onClick={() => { setShowChatBubble(!showChatBubble); handleMenuClose2(); }}>
-            <VscRobot className="mr-2" />
-            Toggle Chatbot
-          </MenuItem>
-          <MenuItem onClick={() => { handleCreateGroupCloseOpen(); handleMenuClose2(); }}>
-            <MdOutlineGroupAdd className="mr-2" />
-            Create Group
-          </MenuItem>
-          <MenuItem onClick={() => { handleLogout(); handleMenuClose2(); }} className="text-red-600">
-            <TbLogout className="mr-2" />
-            Logout
-          </MenuItem>
-        </Menu>
-      </div>
-    </div>
-              <div className="relative flex justify-center items-center bg-white py-4 px-3">
+      View Profile        <div className="relative flex justify-center items-center bg-white py-4 px-3">
                 <input
                   className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-10 py-2"
                   type="text"
