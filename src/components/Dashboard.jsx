@@ -837,7 +837,7 @@ const Dashboard = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full relative">
+            <div className="w-full h-full flex flex-col">
 
               
               {/* Header Section */}
