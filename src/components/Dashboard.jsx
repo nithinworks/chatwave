@@ -63,7 +63,6 @@ import Logo from "/public/logo.png";
 import { BASE_URL } from "../config/Api";
 import axios from "axios";
 import io from "socket.io-client";
-
 const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
@@ -103,9 +102,7 @@ const Dashboard = () => {
   const [showChatBubble, setShowChatBubble] = useState(false);
   const token = localStorage.getItem("token");
   const socket = useRef();
-
   const handleClose = () => setOpen(false);
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(setFieldToNull(REGISTER));
@@ -114,37 +111,31 @@ const Dashboard = () => {
     handleClose();
     navigate("/signin");
   };
-
   useEffect(() => {
     if (token) {
       dispatch(currentUser(token));
       setIsLogin(true);
     }
   }, [token, auth.updatedUser]);
-
   useEffect(() => {
     if (!auth.reqUser) navigate("/signin");
   }, [auth.reqUser]);
-
   useEffect(() => {
     if (currentChat) {
       dispatch(getAllMessage({ chatId: currentChat.id, token }));
     }
     fetchNotifications();
   }, [currentChat, token]);
-
   useEffect(() => {
     if (Array.isArray(message.messages)) {
       setMessages(message.messages);
     }
   }, [message.messages]);
-
   useEffect(() => {
     if (messageRef.current) {
       messageRef.current.scrollIntoView();
     }
   }, [messages]);
-
   // Set up socket.io connection
   useEffect(() => {
     console.log("Initializing WebSocket connection...");
@@ -155,11 +146,9 @@ const Dashboard = () => {
         token: token,
       },
     });
-
     socket.current.on("connect", () => {
       console.log("Connected to WebSocket server");
     });
-
     socket.current.on("new message", (newMessage) => {
       if (newMessage.chat.id === currentChat?.id) {
         setMessages((prevMessages) => {
@@ -171,7 +160,6 @@ const Dashboard = () => {
         });
       }
     });
-
     // Listen for user blocked event
     socket.current.on("user blocked", (data) => {
       if (data.chatId === currentChat?.id) {
@@ -179,7 +167,6 @@ const Dashboard = () => {
         fetchUpdatedCurrentChat(data.chatId);
       }
     });
-
     // Listen for user blocked event
     socket.current.on("user blocked", (data) => {
       if (data.chatId === currentChat?.id) {
@@ -192,7 +179,6 @@ const Dashboard = () => {
         }
       }
     });
-
     // Listen for user unblocked event
     socket.current.on("user unblocked", (data) => {
       if (data.chatId === currentChat?.id) {
@@ -205,15 +191,12 @@ const Dashboard = () => {
         }
       }
     });
-
     socket.current.on("connect_error", (error) => {
       console.error("Connection Error: ", error);
     });
-
     socket.current.on("error", (error) => {
       console.error("Socket Error: ", error);
     });
-
     return () => {
       console.log("Disconnecting WebSocket...");
       socket.current.off("user blocked");
@@ -221,17 +204,14 @@ const Dashboard = () => {
       socket.current.disconnect();
     };
   }, [currentChat]);
-
   const sendMessage = (message) => {
     //console.log("Sending message:", message);
     socket.current.emit("new message", message);
   };
-
   useEffect(() => {
     if (currentChat) {
       console.log("Joining chat:", currentChat.id);
       socket.current.emit("join chat", currentChat.id);
-
       socket.current.on("message received", (newMessage) => {
         //console.log("Message received:", newMessage);
         if (newMessage.chat.id === currentChat.id) {
@@ -239,7 +219,6 @@ const Dashboard = () => {
         }
       });
     }
-
     return () => {
       if (currentChat) {
         console.log("Leaving chat:", currentChat.id);
@@ -248,7 +227,6 @@ const Dashboard = () => {
       }
     };
   }, [currentChat]);
-
   // Polling for new messages and notifications every 5 seconds
   useEffect(() => {
     const pollMessagesAndNotifications = () => {
@@ -256,22 +234,17 @@ const Dashboard = () => {
         dispatch(getAllMessage({ chatId: currentChat.id, token }));
         fetchUpdatedCurrentChat(currentChat.id);
       }
-
       // Fetch notifications only if the current user is the receiver in the chat
       fetchNotifications();
     };
-
     const interval = setInterval(pollMessagesAndNotifications, 5000);
-
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, [currentChat, token]);
-
   useEffect(() => {
     // Reset lastRenderedDate when messages change
     setLastRenderedDate(null);
   }, [messages]);
-
   const handleCurrentChat = (item) => {
     setCurrentChat(item);
     setCurrentChatData(item);
@@ -282,29 +255,22 @@ const Dashboard = () => {
     markNotificationsAsRead(item.id);
     setIsLeftPaneVisible(false); // Hide the left pane when a chat is selected
   };
-
   const createNewChat = (userId) => {
     const data = { token, userId };
     if (token) dispatch(createSingleChat(data));
   };
-
   useEffect(() => {
     if (token) dispatch(getAllChat(token));
   }, [token, chat.singleChat, chat.createdGroup, updateFlag]);
-
   const handleCreateNewMessage = (url) => {
     const messageContent = url || content;
     if (!messageContent) return; // Ensure content is not empty
-
     setContent(""); // Clear the input field immediately
-
     const data = { token, chatId: currentChat?.id, content: messageContent };
-
     // Send the message to the server
     dispatch(createNewMessage(data)).then(() => {
       // Dispatch getAllMessage to refresh the chat from the server
       dispatch(getAllMessage({ chatId: currentChat.id, token }));
-
       // Emit the new message through the socket (the server will broadcast it back)
       socket.current.emit("new message", {
         id: new Date().getTime(), // Temporary ID
@@ -312,7 +278,6 @@ const Dashboard = () => {
         user: { id: auth.reqUser.id },
         chat: { id: currentChat.id },
       });
-
       // Prepare notifications for group chat or direct message
       if (currentChat && currentChat.users) {
         currentChat.users.forEach((user) => {
@@ -339,52 +304,41 @@ const Dashboard = () => {
       }
     });
   };
-
   const handleSearch = (keyword) => {
     dispatch(searchUser({ userId: auth.reqUser?.id, keyword, token }));
   };
-
   const handleProfileCloseOpen = () => {
     setIsProfile(!isProfile);
   };
-
   const handleCreateGroupCloseOpen = () => {
     setIsCreateGroup(!isCreateGroup);
   };
-
   const handleEditMessage = (messageContent, messageId) => {
     // Remove "Edit: " prefix if it exists
     const cleanContent = messageContent.startsWith("Edit: ")
       ? messageContent.replace(/^Edit:\s*/, "")
       : messageContent;
-
     setContent(cleanContent); // Set the cleaned content
     setMessageId(messageId); // Set the message ID
     setIsEditMessage(true); // Enter edit mode
-
     // Optionally, focus the input to allow immediate editing
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
-
   const handleEditMessageSend = () => {
     // Add "Edit: " prefix only if it's not already present
     const prefixedContent = content.startsWith("Edit: ")
       ? content
       : "Edit: " + content;
-
     const data = { token, content: prefixedContent, messageId };
-
     dispatch(editMessage(data)).then(() => {
       setIsEditMessage(false); // Exit edit mode
       setMessageId(null); // Clear the message ID
       dispatch(getAllMessage({ chatId: currentChat.id, token })); // Refresh messages
     });
-
     setContent(""); // Clear the input field
   };
-
   // Function to delete a message
   const handleDeleteMessage = (messageId) => {
     dispatch(deleteMessage({ token, messageId })).then(() => {
@@ -392,12 +346,10 @@ const Dashboard = () => {
       dispatch(getAllMessage({ chatId: currentChat.id, token }));
     });
   };
-
   const handleThreeDotsClick = (event) => {
     setAnchorEl(event.currentTarget);
     setShowPopover(true);
   };
-
   const handleBlockUser = () => {
     setShowPopover(false);
     const data = {
@@ -416,7 +368,6 @@ const Dashboard = () => {
       fetchUpdatedCurrentChat(currentChat.id);
     });
   };
-
   const handleUnblockUser = () => {
     const data = {
       token,
@@ -434,7 +385,6 @@ const Dashboard = () => {
       fetchUpdatedCurrentChat(currentChat.id);
     });
   };
-
   // Helper function to fetch updated chat data
   const fetchUpdatedCurrentChat = (chatId) => {
     axios
@@ -448,12 +398,10 @@ const Dashboard = () => {
         console.error("Error fetching updated chat data", error);
       });
   };
-
   const handleViewUserClose = () => {
     setAnchorEl(null);
     setShowPopover(false);
   };
-
   const onEmojiClick = (emojiObject) => {
     const { selectionStart, selectionEnd } = inputRef.current;
     const newText =
@@ -467,27 +415,23 @@ const Dashboard = () => {
       inputRef.current.selectionEnd = selectionStart + emojiObject.emoji.length;
     }, 0);
   };
-
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
     const invalidFiles = files.filter((file) => file.size > 20 * 1024 * 1024); // 20mb limit per file
-
     if (invalidFiles.length > 0) {
       setSnackbarMessage("File size should not exceed 20 MB limit!");
       setShowSnackbar(true);
     } else {
       //console.log("Files selected:", files);
       const uploadedFiles = [];
-
       for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "chatwave");
         formData.append("cloud_name", "ds6dfcnny");
-
         try {
           const response = await axios.post(
-            "https://api.cloudinary.com/v1_1/ds6dfcnny/auto/upload",
+            "https://api.cloudinary.com/v1_1/ds6dfcnny/image/upload",
             formData
           );
           const contentUrl = response.data.secure_url;
@@ -499,7 +443,6 @@ const Dashboard = () => {
             isAttachment: true,
           };
           dispatch(createNewMessage(data2));
-
           // Store the uploaded file's URL
           uploadedFiles.push({
             id: new Date().getTime(), // Temporary ID
@@ -512,28 +455,23 @@ const Dashboard = () => {
           //console.error("Error uploading attachment: ", error);
         }
       }
-
       // Update the state with uploaded files
       setMessages((prevMessages) => [...prevMessages, ...uploadedFiles]);
-
       // Emit the uploaded files to the socket server
       uploadedFiles.forEach((file) => {
         socket.current.emit("new message", file);
       });
     }
   };
-
   const handleGiphyOpen = () => setShowGiphySearch(true);
   const handleGiphyClose = () => setShowGiphySearch(false);
   const handleSelectGif = (url) => {
     handleCreateNewMessage(url);
     setShowGiphySearch(false);
   };
-
   const handleGroupNameEdit = () => {
     setEditGroupName(true);
   };
-
   const handleGroupNameEditCheck = () => {
     dispatch(
       updateGroup({
@@ -547,13 +485,11 @@ const Dashboard = () => {
     setEditGroupName(false);
     setOpen(true);
   };
-
   const handleImageUpload = async (pics) => {
     const data = new FormData();
     data.append("file", pics);
     data.append("upload_preset", "chatwave");
     data.append("cloud_name", "ds6dfcnny");
-
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/ds6dfcnny/image/upload",
@@ -576,7 +512,6 @@ const Dashboard = () => {
       setOpen(true);
     }
   };
-
   const handleAddUserToGroup = () => {
     const newMembers = Array.from(groupMember, (user) => user.id);
     const data = {
@@ -590,17 +525,14 @@ const Dashboard = () => {
     setSnackbarMessage("Users added to group successfully!");
     setOpen(true);
   };
-
   const handleRemoveMember = (item) => {
     const updatedGroupMembers = new Set(groupMember);
     updatedGroupMembers.delete(item);
     setGroupMember(updatedGroupMembers);
   };
-
   const handleAddUsersClick = () => {
     setIsModalOpen(true);
   };
-
   const handleRemoveGroupUser = (removeUserId) => {
     dispatch(
       removeGroupMember({
@@ -612,7 +544,6 @@ const Dashboard = () => {
     setSnackbarMessage("User Removed successfully!");
     setOpen(true);
   };
-
   const handleExitGroup = () => {
     setShowPopover(false);
     const data = {
@@ -627,23 +558,18 @@ const Dashboard = () => {
       setCurrentChatData(null); // Clear currentChatData
     });
   };
-
   const fetchNotifications = async () => {
     if (!token) return;
-
     try {
       const response = await axios.get(`${BASE_URL}/notifications/retrieve`, {
         headers: { Authorization: token },
       });
-
       // Assuming the response contains all notifications
       const allNotifications = response.data;
-
       // Filter notifications to show only those meant for the current user
       const userNotifications = allNotifications.filter(
         (notification) => notification.userId === auth.reqUser.id // Only keep notifications where the receiver is the current user
       );
-
       setNotifications((prevNotifications) => {
         // Append new notifications to the existing state
         const newNotifications = userNotifications.filter(
@@ -656,7 +582,6 @@ const Dashboard = () => {
       console.error("Error fetching notifications", error);
     }
   };
-
   const markNotificationsAsRead = (chatId) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter(
@@ -665,15 +590,12 @@ const Dashboard = () => {
       )
     );
   };
-
   const handleMenuClick = (event) => {
     setMenuAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
-
   const handleMenuSelect = (option) => {
     switch (option) {
       case "emoji":
@@ -690,10 +612,8 @@ const Dashboard = () => {
     }
     setMenuAnchorEl(null); // Close menu after selection
   };
-
   const popOpen = Boolean(anchorEl);
   const id = popOpen ? "simple-popover" : undefined;
-
   useEffect(() => {
     if (showChatBubble) {
       const script1 = document.createElement("script");
@@ -704,25 +624,21 @@ const Dashboard = () => {
         }
       `;
       document.body.appendChild(script1);
-
       const script2 = document.createElement("script");
       script2.src = "https://www.chatbase.co/embed.min.js";
       script2.setAttribute("chatbotId", "mxDBEDjLAyTOXgc2uQWqC");
       script2.setAttribute("domain", "www.chatbase.co");
       script2.defer = true;
       document.body.appendChild(script2);
-
       return () => {
         document.body.removeChild(script1);
         document.body.removeChild(script2);
       };
     }
   }, [showChatBubble]);
-
   return (
     <div className="relative h-[100vh]">
       <div className="py-14 bg-[#1271ff] w-full"></div>
-
       <div className="flex flex-col md:flex-row bg-[#f0f2f5] h-[90vh] w-[96vw] absolute top-[5vh] left-[2vw] rounded-lg shadow-blue-700 shadow-lg">
         {/* Left Part */}
         <div
@@ -744,10 +660,67 @@ const Dashboard = () => {
             </div>
           ) : (
             <div className="w-full h-full">
-             <div className="flex justify-between items-center p-3">
-      View Profile        <div className="relative flex justify-center items-center bg-white py-4 px-3">
+              <div className="flex justify-between items-center p-3">
+                <div className="flex items-center space-x-3">
+                  <Tooltip title="View Profile" placement="bottom">
+                    <img
+                      className="rounded-full w-10 h-10 cursor-pointer"
+                      src={
+                        auth.reqUser?.profile_picture ||
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                      }
+                      alt="profile picture"
+                      onClick={handleProfileCloseOpen}
+                    />
+                  </Tooltip>
+                  <p className="hidden md:block">{auth.reqUser?.full_name}</p>
+                </div>
+                <div className="space-x-3 text-2xl flex">
+                  <Tooltip title="Start a Video Discussion" placement="bottom">
+                    <div
+                      onClick={() => navigate("/group-room")}
+                      className="cursor-pointer text-2xl"
+                    >
+                      <AiOutlineVideoCameraAdd />
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="Toggle Chatbot" placement="bottom">
+                    <div
+                      onClick={() => setShowChatBubble(!showChatBubble)}
+                      className="cursor-pointer"
+                    >
+                      <VscRobot />
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="Create Group" placement="bottom">
+                    <div
+                      onClick={handleCreateGroupCloseOpen}
+                      className="cursor-pointer"
+                    >
+                      <MdOutlineGroupAdd />
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="Logout" placement="bottom">
+                    <div className="cursor-pointer text-red-600">
+                      <TbLogout onClick={handleLogout} />
+                    </div>
+                  </Tooltip>
+                </div>
+              </div>
+              <div className="relative flex justify-center items-center bg-white py-4 px-3">
                 <input
                   className="border-none outline-none bg-slate-200 rounded-md w-[93%] pl-10 py-2"
+
+    
+          
+            
+    
+
+          
+          Expand Down
+    
+    
+  
                   type="text"
                   placeholder="Search Users..."
                   onChange={(e) => {
@@ -758,7 +731,6 @@ const Dashboard = () => {
                 />
                 <AiOutlineSearch className="left-9 top-7 absolute" />
               </div>
-
               <div className="bg-white overflow-y-scroll h-full px-4">
                 {query &&
                   auth.searchUser?.map((item) => (
@@ -780,7 +752,6 @@ const Dashboard = () => {
                       />
                     </div>
                   ))}
-
                 {!chat.chats?.error &&
                   chat?.chats?.slice().reverse().map((item) => {
                     const chatNotifications = notifications.filter(
@@ -838,8 +809,7 @@ const Dashboard = () => {
             </div>
           )}
         </div>
-
-       
+        {/* Right Part */}
         <div
           className={`right w-full md:w-[70%] flex flex-col items-center justify-center h-full ${
             isLeftPaneVisible ? "hidden" : "block"
@@ -880,7 +850,6 @@ const Dashboard = () => {
                       />
                     </div>
                   </Tooltip>
-
                   <img
                     className="w-10 h-10 rounded-full"
                     src={
@@ -1091,7 +1060,6 @@ const Dashboard = () => {
                   </Popover>
                 </div>
               </div>
-
               {/* Messages Section */}
               <div className="px-4 md:px-10 pt-2 pb-8 mt-16 md:h-[100%] overflow-y-scroll bg-[url('/chatwave-bg.jpg')] bg-center bg-contain">
                 <div className="space-y-1 flex flex-col justify-center mt-2">
@@ -1107,11 +1075,9 @@ const Dashboard = () => {
                               messages.length - index
                             ]?.timeStamp?.substring(0, 10)
                           : null;
-
                       const showDateHeader =
                         index === 0 ||
                         currentMessageDate !== previousMessageDate;
-
                       return (
                         <MessageCard
                           key={item.id}
@@ -1136,7 +1102,6 @@ const Dashboard = () => {
                   <div ref={messageRef} />
                 </div>
               </div>
-
               {/* Footer Section */}
               <div className="footer bg-[#f0f2f5] rounded-br-lg w-full py-3 flex justify-center items-center text-2xl">
                 {currentChatData?.blocked &&
@@ -1321,7 +1286,6 @@ const Dashboard = () => {
               />
               <p className="font-semibold text-xl">Add Users to Group</p>
             </div>
-
             <div className="flex flex-col space-y-4 items-center bg-white py-4 px-3">
               <div className="flex flex-wrap space-x-1 space-y-1">
                 {groupMember.size > 0 &&
@@ -1333,7 +1297,6 @@ const Dashboard = () => {
                     />
                   ))}
               </div>
-
               <input
                 className="outline-none border-b border-[#888888] p-2 w-[93%]"
                 type="text"
@@ -1345,7 +1308,6 @@ const Dashboard = () => {
                 value={addUserQuery}
               />
             </div>
-
             <div className="bg-white overflow-y-auto pl-4">
               {addUserQuery &&
                 auth.searchUser?.map((item) => (
@@ -1370,7 +1332,6 @@ const Dashboard = () => {
                 ))}
             </div>
           </div>
-
           <div className="bottom-10 py-4 bg-slate-200 flex items-center justify-center">
             <div
               className="bg-blue-600 rounded-full p-4 cursor-pointer"
@@ -1386,5 +1347,4 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;
