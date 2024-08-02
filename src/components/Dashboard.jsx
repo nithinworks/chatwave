@@ -431,7 +431,7 @@ const Dashboard = () => {
         formData.append("cloud_name", "ds6dfcnny");
         try {
           const response = await axios.post(
-            "https://api.cloudinary.com/v1_1/ds6dfcnny/image/upload",
+            "https://api.cloudinary.com/v1_1/ds6dfcnny/auto/upload",
             formData
           );
           const contentUrl = response.data.secure_url;
