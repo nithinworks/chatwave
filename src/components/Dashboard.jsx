@@ -839,7 +839,7 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Right Part */}
+       
         <div
           className={`right w-full md:w-[70%] flex flex-col items-center justify-center h-full ${
             isLeftPaneVisible ? "hidden" : "block"
